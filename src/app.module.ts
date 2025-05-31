@@ -23,7 +23,7 @@ import { Task } from './tasks/task.entity';
       password: process.env.DB_PASSWORD || 'password',
       database: process.env.DB_NAME || 'taskmanager',
       entities: [User, Task],
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: true, //process.env.NODE_ENV !== 'production' -> deberia ser asi, pero por ahora lo dejo asi para que se sincronice la base de datos
       logging: process.env.NODE_ENV === 'development',
     }),
     AuthModule,
