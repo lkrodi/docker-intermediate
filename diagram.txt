@@ -1,0 +1,34 @@
++-----------+      1:N     +-----------+
+|  users    | <----------- |  tasks    |
++-----------+              +-----------+
+| id (PK)   |              | id (PK)   |
+| email     |              | title     |
+| password  |              | description|
+| name      |              | status    |
+| createdAt |              | dueDate   |
+| updatedAt |              | createdAt |
+|           |              | updatedAt |
+|           |              | userId (FK)|
++-----------+              +-----------+
+
+tabla: users
+| Campo     | Tipo      | Reglas                      |
+| --------- | --------- | --------------------------- |
+| id        | UUID      | PK                          |
+| email     | VARCHAR   | Único, NOT NULL             |
+| password  | VARCHAR   | NOT NULL                    |
+| name      | VARCHAR   | NOT NULL                    |
+| createdAt | TIMESTAMP | Default: CURRENT\_TIMESTAMP |
+| updatedAt | TIMESTAMP | Default: CURRENT\_TIMESTAMP |
+
+tasks
+| Campo       | Tipo      | Reglas                                                        |
+| ----------- | --------- | ------------------------------------------------------------- |
+| id          | UUID      | PK                                                            |
+| title       | VARCHAR   | NOT NULL                                                      |
+| description | VARCHAR   | NULLABLE                                                      |
+| status      | ENUM      | \['pending', 'in\_progress', 'completed'], Default: 'pending' |
+| dueDate     | TIMESTAMP | NULLABLE                                                      |
+| createdAt   | TIMESTAMP | Default: CURRENT\_TIMESTAMP                                   |
+| updatedAt   | TIMESTAMP | Default: CURRENT\_TIMESTAMP                                   |
+| userId      | UUID      | FK -> users.id, NOT NULL                                      |
