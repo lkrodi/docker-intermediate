@@ -6,7 +6,7 @@
 FROM node:18-alpine AS builder
 
 # Metadata
-LABEL maintainer="tu-email@example.com"
+LABEL maintainer="rodolfokenlly@gmail.com"
 LABEL description="Task Manager API - Build Stage"
 
 # Instalar dependencias de sistema necesarias para build
@@ -35,7 +35,7 @@ RUN npm run build
 FROM node:18-alpine AS production
 
 # Metadata
-LABEL maintainer="tu-email@example.com"
+LABEL maintainer="rodolfokenlly@gmail.com"
 LABEL description="Task Manager API - Production"
 LABEL version="1.0.0"
 

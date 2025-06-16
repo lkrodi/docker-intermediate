@@ -1,0 +1,82 @@
+Commands more usefull:
+# Aplicar cambios
+-kubectl apply -f <file_name.yaml>
+
+# Ver el rollout en progreso
+kubectl rollout status deployment/task-manager-api-deployment
+
+# Ver pods
+kubectl get pods
+
+# Ver logs de uno de los pods
+kubectl logs <NOMBRE_DE_UN_POD_NUEVO>
+
+# Ver todos los pods y sus etiquetas
+kubectl get pods --show-labels
+
+# "Matar" a uno de los pods
+kubectl delete pod <NOMBRE_DE_UNO_DE_LOS_PODS>
+
+# Ver el deployment
+kubectl get deployments
+
+# Listar configmaps
+kubectl get configmaps
+
+# Ver ConfigMap (visible)
+kubectl describe configmap <config_name>
+
+# Ver Secret (ofuscado)
+kubectl describe secret <secret_name>
+
+# Listar secrets
+kubectl get secrets
+
+# Ver QUÉ pods gestiona tu Deployment
+kubectl get pods -l app=<app_name>
+
+# Aplica a Múltiples manifiestos declarativos
+kubectl apply -f *.yaml
+
+ # Acceso manual
+kubectl port-forward pod/task-manager-api 3000:3000
+
+# Verificar todos los services
+kubectl get services
+
+# Habilitar el addon de Ingress
+minikube addons enable ingress
+
+# Verificar que se habilitó
+minikube addons list | grep ingress
+
+# Ver detalles completos del Ingress
+kubectl describe ingress <ingress_name>
+
+# Probar el service directamente desde dentro del cluster
+kubectl run test-pod --image=busybox --rm -it --restart=Never -- wget -qO- http://task-manager-api:3000/api/health
+
+# Verificar que se agregó correctamente
+cat /etc/hosts | grep task-manager
+
+# Probar que el DNS local funciona
+ping task-manager.local
+
+# Crear un túnel entre tu Mac y minikube (déjalo corriendo)
+minikube tunnel
+
+# Conectarse a PostgreSQL y crear datos de prueba
+kubectl exec -it postgres -- psql -U postgres -d taskmanager -c "CREATE TABLE test_data (id INT, name TEXT);"
+kubectl exec -it postgres -- psql -U postgres -d taskmanager -c "INSERT INTO test_data VALUES (1, 'Mi dato importante');"
+
+# Ver que existe
+kubectl exec -it postgres -- psql -U postgres -d taskmanager -c "SELECT * FROM test_data;"
+
+# Crear una tabla con datos importantes
+kubectl exec -it postgres-persistent -- psql -U postgres -d taskmanager -c "CREATE TABLE datos_importantes (id INT, mensaje TEXT, fecha TIMESTAMP DEFAULT NOW());"
+
+# Insertar algunos datos
+kubectl exec -it postgres-persistent -- psql -U postgres -d taskmanager -c "INSERT INTO datos_importantes (id, mensaje) VALUES (1, 'Este dato DEBE sobrevivir'), (2, 'Kubernetes es genial'), (3, 'Persistencia funcionando');"
+
+# Verificar que se crearon
+kubectl exec -it postgres-persistent -- psql -U postgres -d taskmanager -c "SELECT * FROM datos_importantes;"

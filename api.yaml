@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task-manager-api
+  labels:
+    app:  task-manager-api
+spec:
+  containers:
+  - name: api
+    image: task-manager-api:v1.0.0
+    imagePullPolicy: Never
+    ports:
+    - containerPort: 3000
+    env:
+    - name: NODE_ENV
+      value: "development"
+    - name: DB_HOST
+      value: "postgres"
+    - name: DB_PORT
+      value: "5432"
+    - name: DB_USERNAME
+      value: "postgres"
+    - name: DB_NAME
+      value: "taskmanager"
+    - name: REDIS_HOST
+      value: "redis"
+    - name: REDIS_PORT
+      value: "6379"
+    - name: JWT_SECRET
+      value: "your-super-secret-jwt-key-change-this-in-production"
