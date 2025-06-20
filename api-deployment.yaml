@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: task-manager-api
+        version: v1.0.0
     spec:
       containers:
       - name: api
@@ -20,6 +21,31 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 3000
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /api/health/live
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5          # ✅ Corregido: era timeOutSeconds
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health/ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3          # ✅ Corregido: era timeOutSeconds
+          failureThreshold: 3
         env:
         - name: NODE_ENV
           valueFrom:
@@ -66,3 +92,16 @@ spec:
             secretKeyRef:
               name: api-secret
               key: JWT_SECRET
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1001
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+            - ALL
+      
+      # ✅ Agregado: securityContext a nivel de pod
+      securityContext:
+        fsGroup: 1001
+      restartPolicy: Always
